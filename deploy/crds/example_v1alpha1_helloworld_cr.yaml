@@ -1,0 +1,7 @@
+apiVersion: example.com/v1alpha1
+kind: HelloWorld
+metadata:
+  name: example-helloworld
+spec:
+  # Add fields here
+  size: 3
