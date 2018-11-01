@@ -1,2 +1,8 @@
 ---
-# tasks file for HelloWorld
+- name: Test
+  debug:
+    msg: This is my test
+
+- name: Environment
+  debug:
+    msg: "{{ environment | to_nice_json }} "

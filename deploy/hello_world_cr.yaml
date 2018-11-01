@@ -5,4 +5,4 @@ metadata:
 spec:
   # Add fields here
   size: 3
-  message: Test version
+  hello_world_message: Test version

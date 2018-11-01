@@ -12,16 +12,15 @@ spec:
       labels:
         name: hello-world
     spec:
-      #serviceAccountName: hello-world
+      serviceAccountName: hello-world
       containers:
         - name: hello-world
-          # Replace this with the built image name
-          image: hk1232/operator-hello-world:0.2
+          image: hk1232/operator-hello-world-runner:0.1
           imagePullPolicy: Always
-          #env:
-          #  - name: WATCH_NAMESPACE
-          #    valueFrom:
-          #      fieldRef:
-          #        fieldPath: metadata.namespace
-          #  - name: OPERATOR_NAME
-          #    value: "hello-world"
+          env:
+            - name: WATCH_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: OPERATOR_NAME
+              value: "hello-world"
