@@ -1,2 +1,2 @@
 ---
-# vars file for HelloWorld
+mysql_app_name: simpleapp-mysql

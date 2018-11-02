@@ -1,8 +1,29 @@
 ---
+- set_fact:
+    mysql_ip: "{{ lookup('dig',mysql_app_name) }}"
+
+- include_tasks: mariadb_install.yml
+  when: mysql_ip == "NXDOMAIN"
+
+#- include_tasks: mariadb_upgrade.yml
+#  when: mysql_ip != "NXDOMAIN" and 
+
 - name: Test
   debug:
     msg: This is my test
 
-- name: Environment
+- name: SIMPLEAPP_MYSQL_SERVICE_HOST
   debug:
-    msg: "{{ environment | to_nice_json }} "
+    msg: "SIMPLEAPP_MYSQL_SERVICE_HOST={{ lookup('env','SIMPLEAPP_MYSQL_SERVICE_HOST') }}"
+
+#- name: Environment
+#  debug:
+#    msg: "{{ environment | to_nice_json }}"
+
+#- name: Vars
+#  debug:
+#    msg: "{{ vars | to_nice_json }}"
+
+#- name: Hostvars
+#  debug:
+#    msg: "{{ hostvars | to_nice_json }}"
