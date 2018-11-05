@@ -1,12 +1,27 @@
 ---
+# DNS resolves if the service is defined
 - set_fact:
     mysql_ip: "{{ lookup('dig',mysql_app_name) }}"
 
+# If no service defined then run our install playbook
+# This is idempotent so we could run it regardless
 - include_tasks: mariadb_install.yml
   when: mysql_ip == "NXDOMAIN"
 
-# TODO - curl version from app itself
 
+# Query the app that consumes our data source for external
+# information, in this case the DDL version
+- name: Get version from external source
+  uri:
+    url: "http://{{ app_name }}:8080/api.php"
+    return_content: yes
+  register: version_query
+
+- set_fact:
+    cur_version: "{{ version_query.json.version }}"
+
+
+# Run our upgrade path if we need to change versions
 - include_tasks: mariadb_upgrade.yml
-  #when: 
+  when: version != version_query.json.version
 

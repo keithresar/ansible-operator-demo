@@ -3,7 +3,7 @@
     src: update.sql.j2
     dest: /tmp/update.sql
 
-- name: Import file.sql similar to mysql -u <username> -p <password> < hostname.sql
+- name: Simulate DDL Changes
   mysql_db:
     login_host: mariadb
     login_user: root

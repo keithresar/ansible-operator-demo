@@ -1,2 +1,3 @@
 ---
+app_name: simpledb
 mysql_app_name: mariadb
