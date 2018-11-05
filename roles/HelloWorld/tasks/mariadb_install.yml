@@ -1,0 +1,91 @@
+---
+- name: Create Maridb service
+  k8s:
+    state: present
+    definition:
+      apiVersion: v1
+      kind: Service
+      metadata:
+        annotations:
+          description: Exposes the database server
+        name: "{{ mysql_app_name }}"
+        namespace: "{{ lookup('env','WATCH_NAMESPACE') }}"
+      spec:
+        ports:
+        - name: mysql
+          port: 3306
+          targetPort: 3306
+        selector:
+          name: "{{ mysql_app_name }}"
+
+- name: Create Maridb deployment config
+  k8s:
+    state: present
+    definition:
+      apiVersion: v1
+      kind: DeploymentConfig
+      metadata:
+        annotations:
+          description: Defines how to deploy the database
+          template.alpha.openshift.io/wait-for-ready: 'true'
+        name: "{{ mysql_app_name }}"
+        namespace: "{{ lookup('env','WATCH_NAMESPACE') }}"
+      spec:
+        replicas: 1
+        selector:
+          name: "{{ mysql_app_name }}"
+        strategy:
+          type: Recreate
+        template:
+          metadata:
+            labels:
+              name: "{{ mysql_app_name }}"
+            name: "{{ mysql_app_name }}"
+          spec:
+            containers:
+            - env:
+              - name: MYSQL_USER
+                value: myuser
+              - name: MYSQL_PASSWORD
+                value: mypassword
+              - name: MYSQL_ROOT_PASSWORD
+                value: mypassword
+              - name: MYSQL_DATABASE
+                value: mydatabase
+              image: " "
+              livenessProbe:
+                initialDelaySeconds: 30
+                tcpSocket:
+                  port: 3306
+                timeoutSeconds: 1
+              name: mysql
+              ports:
+              - containerPort: 3306
+              readinessProbe:
+                exec:
+                  command:
+                  - "/bin/sh"
+                  - "-i"
+                  - "-c"
+                  - MYSQL_PWD='${MYSQL_ROOT_PASSWORD}' mysql -h 127.0.0.1 -u root
+                    -D ${MYSQL_DATABASE} -e 'SELECT 1'
+                initialDelaySeconds: 5
+                timeoutSeconds: 1
+              volumeMounts:
+              - mountPath: "/var/lib/mysql/data"
+                name: data
+            volumes:
+            - emptyDir: {}
+              name: data
+        triggers:
+        - imageChangeParams:
+            automatic: true
+            containerNames:
+            - mysql
+            from:
+              kind: ImageStreamTag
+              name: mariadb:10.2
+              namespace: openshift
+          type: ImageChange
+        - type: ConfigChange
+  

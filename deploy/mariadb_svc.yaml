@@ -1,0 +1,14 @@
+      apiVersion: v1
+      kind: Service
+      metadata:
+        annotations:
+          description: Exposes the database server
+        name: "mariadb"
+        namespace: "hh"
+      spec:
+        ports:
+        - name: mysql
+          port: 3306
+          targetPort: 3306
+        selector:
+          name: "mariadb"

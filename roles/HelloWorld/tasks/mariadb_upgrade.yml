@@ -1,0 +1,20 @@
+---
+- name: Test
+  debug:
+    msg: This is my test
+
+- name: SIMPLEAPP_MYSQL_SERVICE_HOST
+  debug:
+    msg: "SIMPLEAPP_MYSQL_SERVICE_HOST={{ lookup('env','SIMPLEAPP_MYSQL_SERVICE_HOST') }}"
+
+#- name: Environment
+#  debug:
+#    msg: "{{ environment | to_nice_json }}"
+
+#- name: Vars
+#  debug:
+#    msg: "{{ vars | to_nice_json }}"
+
+#- name: Hostvars
+#  debug:
+#    msg: "{{ hostvars | to_nice_json }}"

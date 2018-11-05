@@ -4,5 +4,8 @@
   - name: Top of playbook
     debug:
       msg: "Message: {{ hello_world_message }}"
+  #- k8s_facts:
+  #    kind: Pod
+  #  register: pod_list
   - import_role:
       name: "HelloWorld"

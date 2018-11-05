@@ -2,19 +2,27 @@
 - set_fact:
     mysql_ip: "{{ lookup('dig',mysql_app_name) }}"
 
+#  - name: Get a list of all pods from any namespace
+#    k8s_facts:
+#      kind: Pod
+#      namespace: "{{ lookup('env','WATCH_NAMESPACE') }}"
+#    register: pod_list
+#  - debug:
+#      msg: "{{ pod_list }}"
+
 - include_tasks: mariadb_install.yml
   when: mysql_ip == "NXDOMAIN"
 
 #- include_tasks: mariadb_upgrade.yml
 #  when: mysql_ip != "NXDOMAIN" and 
 
-- name: Test
-  debug:
-    msg: This is my test
+#- name: Test
+#  debug:
+#    msg: This is my test
 
-- name: SIMPLEAPP_MYSQL_SERVICE_HOST
-  debug:
-    msg: "SIMPLEAPP_MYSQL_SERVICE_HOST={{ lookup('env','SIMPLEAPP_MYSQL_SERVICE_HOST') }}"
+#- name: SIMPLEAPP_MYSQL_SERVICE_HOST
+#  debug:
+#    msg: "SIMPLEAPP_MYSQL_SERVICE_HOST={{ lookup('env','SIMPLEAPP_MYSQL_SERVICE_HOST') }}"
 
 #- name: Environment
 #  debug:
