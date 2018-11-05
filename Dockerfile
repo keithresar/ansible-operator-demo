@@ -3,9 +3,8 @@ FROM quay.io/water-hole/ansible-operator
 USER root
 
 RUN yum-config-manager --enable rhel-7-server-rpms && \
-    yum -y install MySQL-python && \
-    pip --no-cache-dir install --upgrade ansible dnspython 
-    #pip --no-cache-dir install dnspython MySQL-python	- mysql-devel
+    yum -y install MySQL-python mariadb && \
+    pip --no-cache-dir install --upgrade ansible dnspython
 
 
 COPY roles/ ${HOME}/roles/

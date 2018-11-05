@@ -2,8 +2,8 @@
 apiVersion: v1
 kind: Template
 labels:
-  app: simpleapp-mysql
-  template: simpleapp-mysql
+  app: simpleapp
+  template: simpleapp
 message: |-
   The following service(s) have been created in your project: ${NAME}, ${DATABASE_SERVICE_NAME}.
 metadata:
@@ -14,7 +14,7 @@ metadata:
     openshift.io/display-name: Simple App + MySQL (Ephemeral)
     tags: quickstart,php,simpleapp
     template.openshift.io/bindable: 'false'
-  name: simpleapp-mysql
+  name: simpleapp
 objects:
 - apiVersion: v1
   kind: Secret
@@ -146,7 +146,7 @@ objects:
           - name: OPCACHE_REVALIDATE_FREQ
             value: "${OPCACHE_REVALIDATE_FREQ}"
           image: " "
-          name: simpleapp-mysql
+          name: simpleapp
           ports:
           - containerPort: 8080
           resources:
@@ -156,7 +156,7 @@ objects:
     - imageChangeParams:
         automatic: true
         containerNames:
-        - simpleapp-mysql
+        - simpleapp
         from:
           kind: ImageStreamTag
           name: "${NAME}:latest"
@@ -254,7 +254,7 @@ parameters:
   displayName: Name
   name: NAME
   required: true
-  value: simpleapp-mysql
+  value: simpleapp
 - description: The OpenShift Namespace where the ImageStream resides.
   displayName: Namespace
   name: NAMESPACE

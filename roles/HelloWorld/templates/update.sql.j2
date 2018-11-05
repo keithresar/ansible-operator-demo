@@ -1,0 +1,3 @@
+create table if not exists version  ( cur_version int not null, primary key (cur_version));
+
+insert into version set cur_version="{{ version }}" on duplicate key update cur_version="{{ version }}";

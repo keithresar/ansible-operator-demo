@@ -1,5 +1,6 @@
+---
 apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
+kind: Role
 metadata:
   creationTimestamp: null
   name: hello-world
@@ -7,24 +8,26 @@ rules:
 - apiGroups:
   - "*"
   resources:
-  - deployments
-  - pods
-  - services
-  - endpoints
-  - deployments
-  - persistentvolumeclaims
-  - events
-  - configmaps
-  - secrets
+  - "*"
+  #- deployments
+  #- pods
+  #- services
+  #- endpoints
+  #- deployments
+  #- persistentvolumeclaims
+  #- events
+  #- configmaps
+  #- secrets
   verbs:
   - '*'
 - apiGroups:
   - apps
   resources:
-  - deployments
-  - daemonsets
-  - replicasets
-  - statefulsets
+  - "*"
+  #- deployments
+  #- daemonsets
+  #- replicasets
+  #- statefulsets
   verbs:
   - '*'
 - apiGroups:
@@ -32,11 +35,29 @@ rules:
   resources:
   - servicemonitors
   verbs:
-  - get
-  - create
+  - '*'
 - apiGroups:
   - example.com
   resources:
   - '*'
   verbs:
   - '*'
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: hello-world
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: hello-world
+subjects:
+- kind: ServiceAccount
+  name: hello-world
+roleRef:
+  kind: Role
+  name: hello-world
+  #kind: ClusterRole
+  #name: admin
+  apiGroup: rbac.authorization.k8s.io

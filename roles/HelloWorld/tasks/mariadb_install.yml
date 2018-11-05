@@ -67,8 +67,7 @@
                   - "/bin/sh"
                   - "-i"
                   - "-c"
-                  - MYSQL_PWD='${MYSQL_ROOT_PASSWORD}' mysql -h 127.0.0.1 -u root
-                    -D ${MYSQL_DATABASE} -e 'SELECT 1'
+                  - mysql -h 127.0.0.1 -u root -e 'SELECT 1'
                 initialDelaySeconds: 5
                 timeoutSeconds: 1
               volumeMounts:
@@ -88,4 +87,10 @@
               namespace: openshift
           type: ImageChange
         - type: ConfigChange
+
+- name: Wait for database to come up
+  wait_for:
+    host: "{{ mysql_app_name }}"
+    port: 3306
+    delay: 10
   
