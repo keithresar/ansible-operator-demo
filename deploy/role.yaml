@@ -3,31 +3,18 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   creationTimestamp: null
-  name: hello-world
+  name: simpledb
 rules:
 - apiGroups:
   - "*"
   resources:
   - "*"
-  #- deployments
-  #- pods
-  #- services
-  #- endpoints
-  #- deployments
-  #- persistentvolumeclaims
-  #- events
-  #- configmaps
-  #- secrets
   verbs:
   - '*'
 - apiGroups:
   - apps
   resources:
   - "*"
-  #- deployments
-  #- daemonsets
-  #- replicasets
-  #- statefulsets
   verbs:
   - '*'
 - apiGroups:
@@ -46,18 +33,18 @@ rules:
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: hello-world
+  name: simpledb
 ---
 kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: hello-world
+  name: simpledb
 subjects:
 - kind: ServiceAccount
-  name: hello-world
+  name: simpledb
 roleRef:
   kind: Role
-  name: hello-world
+  name: simpledb
   #kind: ClusterRole
   #name: admin
   apiGroup: rbac.authorization.k8s.io

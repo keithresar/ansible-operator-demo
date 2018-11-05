@@ -2,35 +2,35 @@
 apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
 metadata:
-  name: helloworlds.example.com
+  name: simpledb.example.com
 spec:
   group: example.com
   names:
-    kind: HelloWorld
-    listKind: HelloWorldList
-    plural: helloworlds
-    singular: helloworld
+    kind: SimpleDB
+    listKind: SimpleDBList
+    plural: simpledbs
+    singular: simpledb
   scope: Namespaced
   version: v1alpha1
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: hello-world
+  name: simpledb
 spec:
   replicas: 1
   selector:
     matchLabels:
-      name: hello-world
+      name: simpledb
   template:
     metadata:
       labels:
-        name: hello-world
+        name: simpledb
     spec:
-      serviceAccountName: hello-world
+      serviceAccountName: simpledb
       containers:
-        - name: hello-world
-          image: hk1232/operator-hello-world-runner:0.1
+        - name: simpledb
+          image: hk1232/operator-simpledb-runner:0.1
           imagePullPolicy: Always
           env:
             - name: WATCH_NAMESPACE
@@ -38,4 +38,4 @@ spec:
                 fieldRef:
                   fieldPath: metadata.namespace
             - name: OPERATOR_NAME
-              value: "hello-world"
+              value: "simpledb"
