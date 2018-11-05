@@ -1,9 +1,7 @@
 apiVersion: example.com/v1alpha1
-kind: HelloWorld
+kind: SimpleDB
 metadata:
-  name: example-helloworld
+  name: simpledb
 spec:
   # Add fields here
-  #size: 3
-  #hello_world_message: Test version
   version: 1
