@@ -16,6 +16,8 @@
     url: "http://{{ app_name }}:8080/api.php"
     return_content: yes
   register: version_query
+  until: version_query['status']|default(0) == 200
+  retries: 15
 
 - set_fact:
     cur_version: "{{ version_query.json.version }}"
