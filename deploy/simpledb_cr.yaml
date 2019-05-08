@@ -1,7 +1,7 @@
 apiVersion: example.com/v1alpha1
 kind: SimpleDB
 metadata:
-  name: simpledb
+  name: simpledb-instance
 spec:
   # Add fields here
   version: 1
